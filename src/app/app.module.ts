@@ -10,6 +10,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MenuPage } from '../pages/menu/menu';
 import { ContactPage } from '../pages/contact/contact';
+import { DishProvider } from '../providers/dish/dish';
+import { LeaderProvider } from '../providers/leader/leader';
+import { PromtionProvider } from '../providers/promtion/promtion';
+import { PromotionProvider } from '../providers/promotion/promotion';
+import { ProcessHttpmsgProvider } from '../providers/process-httpmsg/process-httpmsg';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,12 @@ import { ContactPage } from '../pages/contact/contact';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    DishProvider,
+    LeaderProvider,
+    PromtionProvider,
+    PromotionProvider,
+    ProcessHttpmsgProvider
   ]
 })
 export class AppModule { }
