@@ -1,8 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/observable';
+
 import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/catch';
+import { ProcessHttpmsgProvider } from '../process-httpmsg/process-httpmsg';
+import { Dish } from '../../shared/dish';
+import { baseURL } from '../../shared/baseurl';
+
 /*
   Generated class for the DishProvider provider.
 
@@ -12,26 +18,26 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class DishProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello DishProvider Provider');
+  constructor(public http: Http, private processHttpmsgService: ProcessHttpmsgProvider) {
+    console.log('Dish Provider');
   }
 
-  public extractData(res: Response) {
-    let body = res.json;
-    return body || {};
+  getDishes(): Observable<Dish[]> {
+    return this.http.get(baseURL + 'dishes')
+      .map(res => { return this.processHttpmsgService.extractData(res) })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
   }
 
-  public handleError(error: Response | any) {
-    let errMsg: String;
-    if (error instanceof Response) {
-      const body = error.json();
-      const err = body.catch || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText} || '' ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.log(errMsg);
-    return Observable.throw(errMsg);
+  getDish(id: number): Observable<Dish> {
+    return this.http.get(baseURL + 'dishes/' + id)
+      .map(res => { return this.processHttpmsgService.extractData(res) })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
+  }
+
+  getFeaturedDish(): Observable<Dish> {
+    return this.http.get(baseURL + 'dishes?featured=true')
+      .map(res => { return this.processHttpmsgService.extractData(res)[0] })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
   }
 
 }

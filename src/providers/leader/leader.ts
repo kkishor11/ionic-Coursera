@@ -1,6 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/observable';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/catch';
+import { ProcessHttpmsgProvider } from '../process-httpmsg/process-httpmsg';
+import { baseURL } from '../../shared/baseurl';
+import { Leader } from '../../shared/leader';
 /*
   Generated class for the LeaderProvider provider.
 
@@ -10,8 +18,26 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LeaderProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello LeaderProvider Provider');
+  constructor(public http: Http, private processHttpmsgService: ProcessHttpmsgProvider) {
+    console.log('Leader Provider');
+  }
+
+  getLeaders(): Observable<Leader[]> {
+    return this.http.get(baseURL + 'leaders')
+      .map(res => { return this.processHttpmsgService.extractData(res) })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
+  }
+
+  getLeader(id: number): Observable<Leader> {
+    return this.http.get(baseURL + 'leaders/' + id)
+      .map(res => { return this.processHttpmsgService.extractData(res) })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
+  }
+
+  getFeaturedLeader(): Observable<Leader> {
+    return this.http.get(baseURL + 'leaders?featured=true')
+      .map(res => { return this.processHttpmsgService.extractData(res)[0] })
+      .catch(error => { return this.processHttpmsgService.handleError(error) });
   }
 
 }

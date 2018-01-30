@@ -12,9 +12,10 @@ import { MenuPage } from '../pages/menu/menu';
 import { ContactPage } from '../pages/contact/contact';
 import { DishProvider } from '../providers/dish/dish';
 import { LeaderProvider } from '../providers/leader/leader';
-import { PromtionProvider } from '../providers/promtion/promtion';
 import { PromotionProvider } from '../providers/promotion/promotion';
 import { ProcessHttpmsgProvider } from '../providers/process-httpmsg/process-httpmsg';
+import { baseURL } from '../shared/baseurl';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { ProcessHttpmsgProvider } from '../providers/process-httpmsg/process-htt
     ContactPage
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, HttpModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -42,9 +43,9 @@ import { ProcessHttpmsgProvider } from '../providers/process-httpmsg/process-htt
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DishProvider,
     LeaderProvider,
-    PromtionProvider,
     PromotionProvider,
-    ProcessHttpmsgProvider
+    ProcessHttpmsgProvider,
+    { provide: 'BaseURL', useValue: baseURL }
   ]
 })
 export class AppModule { }
