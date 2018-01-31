@@ -26,7 +26,7 @@ export class MenuPage implements OnInit {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private dishService: DishProvider,
-    @Inject('BaseURL') private BaseURL) {
+    @Inject('BaseURL') private baseURL) {
   }
 
   ionViewDidLoad() {

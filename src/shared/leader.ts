@@ -1,7 +1,7 @@
 export interface Leader {
     id: number;
     name: string;
-    inage: string;
+    image: string;
     designation: string;
     abbrevation: string;
     featired: boolean;
